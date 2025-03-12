@@ -1,0 +1,138 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 67b69c90299f4fe6bc9d69b6dde3ce7f
+      name: Template/Baseline
+  templates:
+    - uuid: 91e97ef5561c463ba8df06702c11432e
+      template: 'Template Cisco Catalyst 4900 Series Inventory SNMP'
+      name: 'Template Cisco Catalyst 4900 Series Inventory SNMP'
+      description: |
+        Template Cisco Catalyst 4900 Series Health
+        -Hardware
+        -Model
+        -OS
+        -Serial Number
+        -Sofware Full Details
+        -Software Version
+        -Type
+        -Vendor
+        
+        By: Flavio Gomes Figueira Camacho Junior
+        GitHub: https://github.com/flaviojunior1995/Zabbix
+        
+        Base:
+        SNMPv2-MIB.mib
+        ENTITY-MIB.mib
+        CISCO-IMAGE-MIB.mib
+      groups:
+        - name: Template/Baseline
+      items:
+        - uuid: 71773171939c48c8bc3a33d5fb4c65d5
+          name: Hardware
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.9.3.6.11.1.3.1
+          key: 'cardTable["cardDescr"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: HARDWARE
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: e3a4fd0a5cdd437c933e803267f836ae
+          name: 'Software Full Detail'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.9.9.25.1.1.1.2.7
+          key: 'ciscoImageString["Detail"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: SOFTWARE_FULL
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 251ca4c143de457899a77e2f3775a735
+          name: 'Software Version'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.9.9.25.1.1.1.2.5
+          key: 'ciscoImageString["Version"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: SOFTWARE
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: f71cc642421a43d5823c0c35edcbbc03
+          name: 'Serial Number'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.47.1.1.1.1.11.1
+          key: entPhysicalSerialNum
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          description: ENTITY-MIB
+          inventory_link: SERIALNO_A
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: db14d154a0364f0ba318bece0412f1c1
+          name: Model
+          type: SCRIPT
+          key: scriptModel
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Catalyst 4900 Series";'
+          inventory_link: MODEL
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 85df981a183b48bebf5fd7ec87ecd629
+          name: OS
+          type: SCRIPT
+          key: scriptOS
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "IOS";'
+          inventory_link: OS
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: d7dbe6894fdf47b3ac39a04f400f97dd
+          name: Type
+          type: SCRIPT
+          key: scriptType
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Switch";'
+          inventory_link: TYPE
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: a5986a09371b4f419486a05d4ec1d8cc
+          name: Vendor
+          type: SCRIPT
+          key: scriptVendor
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Cisco";'
+          inventory_link: VENDOR
+          tags:
+            - tag: application
+              value: inventory
+      tags:
+        - tag: class
+          value: inventory

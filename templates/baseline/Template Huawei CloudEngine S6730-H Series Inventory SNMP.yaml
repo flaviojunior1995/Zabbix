@@ -1,0 +1,135 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 67b69c90299f4fe6bc9d69b6dde3ce7f
+      name: Template/Baseline
+  templates:
+    - uuid: 44227b05ed2a4d09b72c383e68b984ad
+      template: 'Template Huawei CloudEngine S6730-H Series Inventory SNMP'
+      name: 'Template Huawei CloudEngine S6730-H Series Inventory SNMP'
+      description: |
+        Template Huawei CloudEngine S6730-H Series Inventory
+        -Hardware
+        -Model
+        -OS
+        -Serial Number A
+        -Serial Number B
+        -Software Version
+        -Type
+        -Vendor
+        
+        By: Flavio Gomes Figueira Camacho Junior
+        GitHub: https://github.com/flaviojunior1995/Zabbix
+        
+        Base:
+        SNMPv2-MIB.mib
+        ENTITY-MIB.mib
+        HUAWEI-SYS-MAN-MIB.mib
+      groups:
+        - name: Template/Baseline
+      items:
+        - uuid: 6894ff57821143d7b767020d84602136
+          name: 'Serial Number A'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.47.1.1.1.1.11.67108873
+          key: 'entPhysicalTable["entPhysicalSerialNum","MPU Board 0"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          description: ENTITY-MIB
+          inventory_link: SERIALNO_A
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 2f563fd16cb546ba967d5e11d80acc80
+          name: 'Serial Number B'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.47.1.1.1.1.11.68157449
+          key: 'entPhysicalTable["entPhysicalSerialNum","MPU Board 1"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          description: ENTITY-MIB
+          inventory_link: SERIALNO_B
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 4604fbd3ef1445babba33b5fce032a5b
+          name: 'Software Version'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2011.5.25.19.1.4.2.1.5.5
+          key: hwSysImageVersion
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: SOFTWARE
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 110d67d8ba664dbcbcdfa44fbfdc8c7b
+          name: Model
+          type: SCRIPT
+          key: scriptModel
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "CloudEngine S6730-H Series";'
+          inventory_link: MODEL
+        - uuid: a7973642682146339268b2146e4b6600
+          name: OS
+          type: SCRIPT
+          key: scriptOS
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Versalite Routing Platform VRP";'
+          inventory_link: OS
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 537d261da0e84c27826e86dc228619fb
+          name: Type
+          type: SCRIPT
+          key: scriptType
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Switch";'
+          inventory_link: TYPE
+        - uuid: 05c86537c2c94212a4f713fdcc6f2cfa
+          name: Vendor
+          type: SCRIPT
+          key: scriptVendor
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Huawei";'
+          inventory_link: VENDOR
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 258898ee27c445148a8bac6fece38e39
+          name: Hardware
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.1.0
+          key: 'sysDesc["VRP"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: HARDWARE
+          preprocessing:
+            - type: REGEX
+              parameters:
+                - '^(.*)+?'
+                - \1
+      tags:
+        - tag: class
+          value: inventory

@@ -1,0 +1,28 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 4c6d50997e8242828764449e850e4171
+      name: Templates/Devices
+  templates:
+    - uuid: 9ef3247f83ad41eca031d46e3cb7e062
+      template: 'Template Huawei S6730-H48X6C'
+      name: 'Template Huawei S6730-H48X6C'
+      description: |
+        Tamplate for device Huawei S6730-H48X6C
+        
+        By: Flavio Gomes Figueira Camacho Junior
+        GitHub: https://github.com/flaviojunior1995/Zabbix
+      templates:
+        - name: 'Template Huawei BGP SNMP'
+        - name: 'Template Huawei CloudEngine S6730-H Series Health SNMP'
+        - name: 'Template Huawei CloudEngine S6730-H Series Inventory SNMP'
+        - name: 'Template Huawei CloudEngine S6730-H Series Optical Monitor SNMP'
+        - name: 'Template MPLS LDP SNMP'
+        - name: 'Template Network Interface SNMP'
+        - name: 'Template OSPF SNMP'
+        - name: 'Template System Status'
+      groups:
+        - name: Templates/Devices
+      macros:
+        - macro: '{$NET.IF.IFTYPE.MATCHES}'
+          value: ^6$

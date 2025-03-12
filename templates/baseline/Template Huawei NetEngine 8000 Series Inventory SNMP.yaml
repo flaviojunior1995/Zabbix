@@ -1,0 +1,135 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 67b69c90299f4fe6bc9d69b6dde3ce7f
+      name: Template/Baseline
+  templates:
+    - uuid: 57655540999244e4beac0186ba8ce6f6
+      template: 'Template Huawei NetEngine 8000 Series Inventory SNMP'
+      name: 'Template Huawei NetEngine 8000 Series Inventory SNMP'
+      description: |
+        Template Huawei NetEngine 8000 Series Inventory
+        -Hardware
+        -Model
+        -OS
+        -Serial Number A
+        -Serial Number B
+        -Software Version
+        -Type
+        -Vendor
+        
+        By: Flavio Gomes Figueira Camacho Junior
+        GitHub: https://github.com/flaviojunior1995/Zabbix
+        
+        Base:
+        SNMPv2-MIB.mib
+        ENTITY-MIB.mib
+        HUAWEI-SYS-MAN-MIB.mib
+      groups:
+        - name: Template/Baseline
+      items:
+        - uuid: 62ff312fe3c844819804d183997c99ff
+          name: 'Serial Number A'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.47.1.1.1.1.11.67108873
+          key: 'entPhysicalTable["entPhysicalSerialNum","MPU Board 0"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          description: ENTITY-MIB
+          inventory_link: SERIALNO_A
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 4c8bc9d4b7964794b7efdff1e3f48124
+          name: 'Serial Number B'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.47.1.1.1.1.11.68157449
+          key: 'entPhysicalTable["entPhysicalSerialNum","MPU Board 1"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          description: ENTITY-MIB
+          inventory_link: SERIALNO_B
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 2a2ca3051add40e39c1e73bfad01b2f6
+          name: 'Software Version'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2011.5.25.19.1.4.2.1.5.2
+          key: hwSysImageVersion
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: SOFTWARE
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: d017f1d3284b42348246cebc4889fe47
+          name: Model
+          type: SCRIPT
+          key: scriptModel
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "NetEngine 8000 Series";'
+          inventory_link: MODEL
+        - uuid: bc27939e696046bea4b7244ffab282f6
+          name: OS
+          type: SCRIPT
+          key: scriptOS
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Versalite Routing Platform VRP";'
+          inventory_link: OS
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 0b0ea07e26294533b20f73e9194251ce
+          name: Type
+          type: SCRIPT
+          key: scriptType
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Switch";'
+          inventory_link: TYPE
+        - uuid: 15011bc836eb4a20ba30092e2849b0b1
+          name: Vendor
+          type: SCRIPT
+          key: scriptVendor
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          params: 'return "Huawei";'
+          inventory_link: VENDOR
+          tags:
+            - tag: application
+              value: inventory
+        - uuid: 8960cf48de3d45c19fd4782d6074cc4a
+          name: Hardware
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.1.0
+          key: 'sysDesc["VRP"]'
+          delay: 1d
+          history: 30d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: HARDWARE
+          preprocessing:
+            - type: REGEX
+              parameters:
+                - '^HUAWEI NetEngine 8000(.*)+?'
+                - \1
+      tags:
+        - tag: class
+          value: inventory
